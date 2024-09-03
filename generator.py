@@ -8,8 +8,6 @@
 #Create a shortcut and add the action of running generator.py
 #Open the shortcut to run the program
 
-
-
 #Gather citation info
 #Case name
 case_name = input("Case name:")
@@ -32,29 +30,47 @@ pincite_page = input("Pincite page (Leave blank if citing whole case):")
 
 #Court name
 court_name = input("Court name:")
-court_name = "(" + court_name
+if court_name:
+    court_name = "(" + court_name
 
 #Case date
 case_date = input("Case date:")
 case_date = case_date + ")"
 
-#Print full case citation
-print()
-print(case_name, reporter_issue, reporter_name, case_page, pincite_page, court_name, case_date)
-print()
-
-#Print shortened citation
-print(short_name, reporter_issue, reporter_name, "at", pincite_page)
-print()
-
-#Print no name shortened citation
-print(reporter_issue, reporter_name, "at", pincite_page)
+# Print full case citation
+print("\nFull citation:")
+if pincite_page:
+    if not court_name:
+        case_date = "(" + case_date
+        print(case_name, reporter_issue, reporter_name, case_page, pincite_page, case_date)
+    print(case_name, reporter_issue, reporter_name, case_page, pincite_page, court_name, case_date)
+else:
+    print(case_name, reporter_issue, reporter_name, case_page, court_name, case_date)
 print()
 
-#Print Id. Make sure it's underlined!
-print(f"\033[4m{"Id."}\033[0m at", pincite_page)
+# Print shortened citation
+print("Shortened citation:")
+if pincite_page:
+    print(short_name, reporter_issue, reporter_name, "at", pincite_page)
+else:
+    print(short_name, reporter_issue, reporter_name, case_page)
 print()
 
+# Print no name shortened citation
+print("No-name shortened citation:")
+if pincite_page:
+    print(reporter_issue, reporter_name, "at", pincite_page)
+else:
+    print(reporter_issue, reporter_name, case_page)
+print()
+
+# Print Id. citation
+print(f"\033[4m{'Id.'}\033[0m citation:")
+if pincite_page:
+    print(f"\033[4m{'Id.'}\033[0m at", pincite_page)
+else:
+    print(f"\033[4m{'Id.'}\033[0m at", case_page)
+print()
 #Farewell to user
 print("Good luck with your legal work! Keep an eye on the punctuation!")
 print()
