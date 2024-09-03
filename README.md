@@ -1,1 +1,2 @@
 # PythonCitationGenerator
+The **Python Citation Generator** is a simple Python script designed to assist legal professionals, students, and researchers in generating industry-standard citations quickly and accurately. The program allows users to input key case information such as case name, volume number, reporter, page number, court, and year, and it automatically formats these details into a properly structured citation according to industry-standard rules.
