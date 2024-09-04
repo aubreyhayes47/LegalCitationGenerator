@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legal Citation Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+        .underline {
+            text-decoration: underline;
+        }
+        .results {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+        }
+        .result-section {
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Citation Generator</h1>
+    <form id="citationForm" onsubmit="generateCitations(event)">
+        <label for="caseName">Case name:</label>
+        <input type="text" id="caseName" name="caseName" required>
+
+        <label for="shortName">Shortened case name:</label>
+        <input type="text" id="shortName" name="shortName" required>
+
+        <label for="reporterName">Reporter name:</label>
+        <input type="text" id="reporterName" name="reporterName" required>
+
+        <label for="reporterIssue">Reporter volume:</label>
+        <input type="text" id="reporterIssue" name="reporterIssue" required>
+
+        <label for="casePage">Case page:</label>
+        <input type="text" id="casePage" name="casePage" required>
+
+        <label for="pincitePage">Pincite page (Leave blank if citing whole case):</label>
+        <input type="text" id="pincitePage" name="pincitePage">
+
+        <label for="courtName">Court name:</label>
+        <input type="text" id="courtName" name="courtName">
+
+        <label for="caseDate">Case date:</label>
+        <input type="text" id="caseDate" name="caseDate" required>
+
+        <button type="submit">Generate Citations</button>
+    </form>
+
+    <div id="results" class="results" style="display:none;">
+        <div class="result-section">
+            <strong>Full citation:</strong>
+            <p id="fullCitation"></p>
+        </div>
+        <div class="result-section">
+            <strong>Shortened citation:</strong>
+            <p id="shortCitation"></p>
+        </div>
+        <div class="result-section">
+            <strong>No-name shortened citation:</strong>
+            <p id="noNameCitation"></p>
+        </div>
+        <div class="result-section">
+            <strong><span class="underline">Id.</span> citation:</strong>
+            <p id="idCitation"></p>
+        </div>
+        <div class="result-section">
+            <p>Good luck with your legal work!</p>
+        </div>
+    </div>
+
+    <script>
+        function generateCitations(event) {
+            event.preventDefault();
+
+            const caseName = document.getElementById('caseName').value.trim();
+            const shortName = document.getElementById('shortName').value.trim();
+            const reporterName = document.getElementById('reporterName').value.trim();
+            const reporterIssue = document.getElementById('reporterIssue').value.trim();
+            const casePage = document.getElementById('casePage').value.trim();
+            const pincitePage = document.getElementById('pincitePage').value.trim();
+            let courtName = document.getElementById('courtName').value.trim();
+            let caseDate = document.getElementById('caseDate').value.trim();
+
+            let fullCitation = `<span class="underline">${caseName}</span>, ${reporterIssue} ${reporterName} ${casePage}`;
+            let shortCitation = `<span class="underline">${shortName}</span>, ${reporterIssue} ${reporterName}`;
+            let noNameCitation = `${reporterIssue} ${reporterName}`;
+
+            if (pincitePage) {
+                fullCitation += `, ${pincitePage}`;
+                shortCitation += ` at ${pincitePage}`;
+                noNameCitation += ` at ${pincitePage}`;
+            } else {
+                shortCitation += ` ${casePage}`;
+                noNameCitation += ` ${casePage}`;
+            }
+
+            if (courtName) {
+                courtName = `(${courtName} `;
+                fullCitation += ` ${courtName}`;
+            } else {
+                fullCitation += ` (`;
+            }
+
+            caseDate = `${caseDate})`;
+            fullCitation += `${caseDate}`;
+
+            const idCitation = `<span class="underline">Id.</span> at ${pincitePage || casePage}`;
+
+            document.getElementById('fullCitation').innerHTML = fullCitation;
+            document.getElementById('shortCitation').innerHTML = shortCitation;
+            document.getElementById('noNameCitation').innerHTML = noNameCitation;
+            document.getElementById('idCitation').innerHTML = idCitation;
+
+            document.getElementById('results').style.display = 'block';
+        }
+    </script>
+</body>
+</html>
